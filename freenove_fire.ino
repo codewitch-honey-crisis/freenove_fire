@@ -22,7 +22,7 @@ static constexpr const size_t lcd_transfer_size = 320 * 240 * 2 / 10;
 static void* lcd_transfer_buffer1 = NULL;
 // transfer buffer 2 (for DMA. See comments in setup())
 static void* lcd_transfer_buffer2 = NULL;
-// the htcw_uix display object that manages screens
+// the htcw_uix display object that manages screens:
 // you can use a screen directly, and you might
 // if your app only has one, but the display object
 // allows for easily switching between different screens
@@ -145,8 +145,8 @@ static PAL_TYPE fire_palette[] = {
     RGB(31, 63, 30), RGB(31, 63, 30), RGB(31, 63, 31),
     RGB(31, 63, 31)};
 
-// it's common in UIX to write small controls in order to do demand draws when you 
-// need something a bit more involved that what the painter<> control allows for.
+// it's common in htxw_uix to write small controls in order to do demand draws when
+// you need something a bit more involved that what the painter<> control allows for.
 template <typename ControlSurfaceType>
 class fire_box : public control<ControlSurfaceType> {
     using base_type = control<control_surface_type>;
