@@ -50,7 +50,7 @@ using color_t = color<typename screen_t::pixel_type>;
 #define RGB(r,g,b) (rgb_pixel<16>(r,g,b).swapped())
 #else
 // store rgb_pixel<16> instances
-// these are computed by the computer, and
+// these are computed by the compiler, and
 // resolve to literal uint16_t values
 #define PAL_TYPE rgb_pixel<16>
 #define RGB(r,g,b) rgb_pixel<16>(r,g,b)
@@ -155,7 +155,7 @@ class fire_box : public control<ControlSurfaceType> {
     unsigned int i, j, k, l, delta;     // looping variables, counters, and data
     char ch;
    public:
-    // not necessarly strictly requires, but may be expected in larger 
+    // not necessarly strictly required, but may be expected in larger 
     // apps further down the chain, so they are strongly recommended
     // when making generalized controls. Implemented here mainly
     // for example
@@ -396,8 +396,8 @@ void loop() {
     if (touch_xy(&x, &y)) {
         printf("touch: (%d, %d)\n", x, y);
     }
-    // when we have a flush pending, that means htcw_uix skipped a 
-    // frame due to the DMA being already tied up with a previous
+    // when we have a flush pending, that means htcw_uix returned
+    // immediately due to the DMA being already tied up with a previous
     // transaction. It will continue rendering once it is complete.
     // However, we don't want to count a pending as one of the frames
     // for calculating the FPS, since rendering was effectively skipped,
