@@ -153,7 +153,7 @@ static PAL_TYPE fire_palette[] = {
 // you need something a bit more involved that what the painter<> control allows for.
 template <typename ControlSurfaceType>
 class fire_box : public control<ControlSurfaceType> {
-    using base_type = control<control_surface_type>;
+    using base_type = control<ControlSurfaceType>;
     int draw_state = 0;
     uint8_t p1[BUF_HEIGHT][BUF_WIDTH];  // VGA buffer, quarter resolution w/extra lines
     unsigned int i, j, k, l, delta;     // looping variables, counters, and data
