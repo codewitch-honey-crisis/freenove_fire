@@ -17,8 +17,8 @@
 #define VGA_8X8_IMPLEMENTATION
 #include "assets/vga_8x8.h"
 
-using namespace gfx;
-using namespace uix;
+using namespace gfx; // import htcw_gfx types
+using namespace uix; // import htcw_uix types
 
 // make a transfer buffer big enough for 1/10th of the display
 static constexpr const size_t lcd_transfer_size = 320 * 240 * 2 / 10;
