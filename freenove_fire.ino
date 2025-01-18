@@ -10,6 +10,10 @@
 #include "freenove_s3_devkit.h"
 #include "gfx.h"
 #include "uix.h"
+// the below Win 3.1 .FON file was converted to a header
+// using https://honeythecodewitch.com/gfx/converter 
+// With htcw_gfx 2.x you must use the C/C++ option,
+// and not the GFX options, since those are for htcw_gfx 1.x
 #define VGA_8X8_IMPLEMENTATION
 #include "assets/vga_8x8.h"
 
