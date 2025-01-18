@@ -21,7 +21,7 @@ using namespace gfx; // import htcw_gfx types
 using namespace uix; // import htcw_uix types
 
 // make a transfer buffer big enough for 1/10th of the display
-static constexpr const size_t lcd_transfer_size = 320 * 240 * 2 / 10;
+static constexpr const size_t lcd_transfer_size = 320 * 240 * 2 / 6;
 // transfer buffer 1
 static void* lcd_transfer_buffer1 = NULL;
 // transfer buffer 2 (for DMA. See comments in setup())
@@ -261,30 +261,44 @@ protected:
     // routine may be called multiple times to render the entire destination. 
     // Note that the destination and clip use local coordinates, not screen coordinates.
     virtual void on_paint(control_surface_type& destination, const srect16& clip) override {
-        for (int y = clip.y1; y <= clip.y2; ++y) {
 #ifdef USE_SPANS
-        // must use rgb_pixel<16>
         static_assert(gfx::helpers::is_same<rgb_pixel<16>,typename screen_t::pixel_type>::value,"USE_SPANS only works with RGB565");
-        // get the span for the current partial row (starting at clip.x1)
-        gfx_span row = destination.span(point16(clip.x1,y));
-        // get the pointer to the partial row data
-        uint16_t *prow = (uint16_t*)row.data;
-#endif
-
+        for (int y = clip.y1; y <= clip.y2; y+=2) {
+            // must use rgb_pixel<16>
+            // get the span for the current partial row (starting at clip.x1)
+            gfx_span row = destination.span(point16(clip.x1,y));
+            gfx_span row2 = destination.span(point16(clip.x1,y+1));
+            // get the pointer to the partial row data
+            uint16_t *prow = (uint16_t*)row.data;
+            uint16_t *prow2 = (uint16_t*)row2.data;
+            for (int x = clip.x1; x <= clip.x2; x+=2) {
+                int i = y >> 2;
+                int j = x >> 2;
+                PAL_TYPE px = fire_palette[this->p1[i][j]];
+                // set the pixels
+                *(prow++)=px;
+                if(x-clip.x1+1<row.length) {
+                    *(prow++)=px;
+                }
+                if(prow2!=nullptr) {
+                    *(prow2++)=px;
+                    if(x-clip.x1+1<row2.length) {
+                        *(prow2++)=px;
+                    }
+                }                
+            }
+        }
+#else 
+        for (int y = clip.y1; y <= clip.y2; ++y) {
             for (int x = clip.x1; x <= clip.x2; ++x) {
                 int i = y >> 2;
                 int j = x >> 2;
                 PAL_TYPE px = fire_palette[this->p1[i][j]];
- #ifdef USE_SPANS
                 // set the pixel
-                *(prow++)=px;
-#else
-                // set the pixel
-                destination.point(point16(x, y), px);
-#endif               
-                
+                destination.point(point16(x,y),px);
             }
         }
+#endif               
     }
     
 };
