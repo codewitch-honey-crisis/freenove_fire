@@ -22,7 +22,7 @@ static constexpr const size_t lcd_transfer_size = 320 * 240 * 2 / 10;
 static void* lcd_transfer_buffer1 = NULL;
 // transfer buffer 2 (for DMA. See comments in setup())
 static void* lcd_transfer_buffer2 = NULL;
-// the htcw_uix object that manages screens
+// the htcw_uix display object that manages screens
 // you can use a screen directly, and you might
 // if your app only has one, but the display object
 // allows for easily switching between different screens
